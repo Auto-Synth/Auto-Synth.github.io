@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AutoSynth generates editable synthesizer programs from audio and text. Watch the demonstration and listen to audio examples.">
+  <title>AutoSynth — Audio &amp; Text to Editable Synthesizer Programs</title>
+  <style>
+    :root { color-scheme: light; --ink: #222c2a; --muted: #69736f; --line: #dfe5e1; --accent: #287568; --paper: #fafbf9; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    main { width: min(1120px, calc(100% - 64px)); margin: auto; }
+    .hero { text-align: center; padding: 64px 0 34px; }
+    h1 { font-size: clamp(40px, 6vw, 56px); letter-spacing: -2.5px; line-height: 1.1; font-weight: 650; margin: 0 0 16px; }
+    .subtitle { max-width: 760px; margin: auto; font-size: clamp(19px, 2.5vw, 25px); font-weight: 450; line-height: 1.4; letter-spacing: -.5px; text-wrap: balance; }
+    .summary { margin: 18px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .summary span { padding: 0 10px; color: #a3afaa; }
+    .demo { margin: 0 auto; max-width: 960px; }
+    video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #242827; border-radius: 10px; box-shadow: 0 8px 30px #1c352314; }
+    figcaption { text-align: center; color: var(--muted); font-size: 13px; line-height: 1.6; margin-top: 12px; }
+    .examples { display: grid; grid-template-columns: 1fr; gap: 56px; max-width: 960px; margin: 56px auto 0; }
+    .task { min-width: 0; }
+    .task-header { border-bottom: 1px solid var(--line); padding-bottom: 20px; }
+    .eyebrow { color: var(--accent); font-size: 11px; font-weight: 650; letter-spacing: 1.8px; text-transform: uppercase; margin: 0 0 10px; }
+    h2 { font-size: 28px; font-weight: 600; letter-spacing: -.6px; line-height: 1.3; margin: 0 0 10px; }
+    .task-description { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; }
+    .sample { display: grid; grid-template-columns: 120px minmax(0, 1fr); align-items: center; gap: 28px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+    .sample-heading { margin: 0; }
+    h3 { font-size: 15px; line-height: 1.4; font-weight: 600; margin: 0; }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .player { min-width: 0; }
+    .player-label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 9px; }
+    .generated { color: var(--accent); }
+    audio { display: block; width: 100%; height: 38px; border-radius: 20px; }
+    .prompt { font-size: 16px; line-height: 1.65; margin: 0; color: #55625c; }
+    .text-task .sample { grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: 40px; }
+    .text-result { min-width: 0; }
+    footer { margin: 30px 0 40px; color: var(--muted); font-size: 12px; text-align: center; line-height: 1.7; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    @media (max-width: 850px) {
+      main { width: min(650px, calc(100% - 40px)); }
+      .hero { padding-top: 42px; }
+      .examples { grid-template-columns: 1fr; gap: 42px; margin-top: 42px; }
+      .sample { grid-template-columns: 90px minmax(0, 1fr); gap: 20px; }
+      .text-task .sample { grid-template-columns: minmax(0, 1fr) minmax(0, 280px); gap: 24px; }
+      .summary span { padding: 0 5px; }
+    }
+    @media (max-width: 650px) {
+      .sample, .text-task .sample { grid-template-columns: 1fr; gap: 16px; }
+    }
+    @media (max-width: 420px) {
+      main { width: calc(100% - 32px); }
+      h1 { letter-spacing: -1.5px; }
+      .summary { font-size: 12px; }
+      .pair { grid-template-columns: 1fr; gap: 14px; }
+      .pair .player { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; }
+      .pair .player-label { margin: 0; }
+      h2 { font-size: 25px; }
+      video { border-radius: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <h1>AutoSynth</h1>
+      <p class="subtitle">Learning to Generate Editable Synthesizer Programs<br class="wide-break"> from Audio and Text</p>
+      <p class="summary">MIDI events <span aria-hidden="true">/</span> Synthesizer parameters <span aria-hidden="true">/</span> Modulation routes</p>
+    </header>
+
+    <figure class="demo">
+      <video controls playsinline preload="metadata" poster="poster.jpg" aria-label="AutoSynth demonstration in Ableton Live">
+        <source src="AutoSynth.mp4" type="video/mp4">
+        Your browser does not support embedded video. <a href="AutoSynth.mp4">Download the demonstration.</a>
+      </video>
+      <figcaption>Generating and editing synthesizer programs in Ableton Live.</figcaption>
+    </figure>
+
+    <div class="examples">
+      <section class="task" aria-labelledby="inversion-title">
+        <header class="task-header">
+          <p class="eyebrow">Audio → Program</p>
+          <h2 id="inversion-title">Reference-audio inversion</h2>
+        </header>
+        <article class="sample">
+          <h3 class="sample-heading">Bass</h3>
+          <div class="pair">
+            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Bass — reference" src="synth%20inversion/1_ref_bass.wav"></audio></div>
+            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Bass — AutoSynth" src="synth%20inversion/1_output_bass.wav"></audio></div>
+          </div>
+        </article>
+        <article class="sample">
+          <h3 class="sample-heading">Organ</h3>
+          <div class="pair">
+            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Organ — reference" src="synth%20inversion/2_ref_organ.wav"></audio></div>
+            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Organ — AutoSynth" src="synth%20inversion/2_output_organ.wav"></audio></div>
+          </div>
+        </article>
+        <article class="sample">
+          <h3 class="sample-heading">Sound effect</h3>
+          <div class="pair">
+            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Sound effect — reference" src="synth%20inversion/3_ref_sfx.wav"></audio></div>
+            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Sound effect — AutoSynth" src="synth%20inversion/3_output_sfx.wav"></audio></div>
+          </div>
+        </article>
+        <article class="sample">
+          <h3 class="sample-heading">Pad</h3>
+          <div class="pair">
+            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Pad — reference" src="synth%20inversion/4_ref_pad.wav"></audio></div>
+            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Pad — AutoSynth" src="synth%20inversion/4_output_pad.wav"></audio></div>
+          </div>
+        </article>
+        <article class="sample">
+          <h3 class="sample-heading">Arpeggio</h3>
+          <div class="pair">
+            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Arpeggio — reference" src="synth%20inversion/5_ref_arp.wav"></audio></div>
+            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Arpeggio — AutoSynth" src="synth%20inversion/5_output_arp.wav"></audio></div>
+          </div>
+        </article>
+        <article class="sample">
+          <h3 class="sample-heading">Texture</h3>
+          <div class="pair">
+            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Texture — reference" src="synth%20inversion/6_ref_texture.wav"></audio></div>
+            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Texture — AutoSynth" src="synth%20inversion/audio_inversion__texture_fx__01_woosh_0043__autosynth.wav"></audio></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="task text-task" aria-labelledby="text-title">
+        <header class="task-header">
+          <p class="eyebrow">Text → Program</p>
+          <h2 id="text-title">Text-driven generation</h2>
+        </header>
+        <article class="sample">
+          <p class="prompt">“A punchy slap synth bass note with sharp attack, decaying over 3 seconds.”</p>
+          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Slap bass — text-driven AutoSynth result" src="text%20generation/A%20punchy%20slap%20synth%20bass%20note%20with%20sharp%20attack,%20decaying%20over%203%20seconds..wav"></audio></div>
+        </article>
+        <article class="sample">
+          <p class="prompt">“A warm electric-piano style synth chord struck once and decaying over 3.5 seconds with gentle bell-like overtones.”</p>
+          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Electric piano — text-driven AutoSynth result" src="text%20generation/A%20warm%20electric-piano%20style%20synth%20chord%20struck%20once%20and%20decaying%20over%203.5%20seconds%20with%20gentle%20bell-like%20overtones..wav"></audio></div>
+        </article>
+        <article class="sample">
+          <p class="prompt">“A noisy crushed synth texture evolving over 3.8 seconds.”</p>
+          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Crushed texture — text-driven AutoSynth result" src="text%20generation/A%20noisy%20crushed%20synth%20texture%20evolving%20over%203.8%20seconds..wav"></audio></div>
+        </article>
+        <article class="sample">
+          <p class="prompt">“A lush synth pad chord with slow release over 4 seconds.”</p>
+          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Lush pad — text-driven AutoSynth result" src="text%20generation/A%20lush%20synth%20pad%20chord%20with%20slow%20release%20over%204%20seconds..wav"></audio></div>
+        </article>
+        <article class="sample">
+          <p class="prompt">“A fast-attack synth pluck note with glassy high end, lasting 2.9 seconds.”</p>
+          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Glassy pluck — text-driven AutoSynth result" src="text%20generation/A%20fast-attack%20synth%20pluck%20note%20with%20glassy%20high%20end,%20lasting%202.9%20seconds..wav"></audio></div>
+        </article>
+        <article class="sample">
+          <p class="prompt">“A warm synth French horn tone held steady for 4 seconds.”</p>
+          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="French horn — text-driven AutoSynth result" src="text%20generation/A%20warm%20synth%20French%20horn%20tone%20held%20steady%20for%204%20seconds..wav"></audio></div>
+        </article>
+      </section>
+    </div>
+    <footer>All AutoSynth audio examples are rendered with Helm.</footer>
+  </main>
+  <script>
+    // Keep comparisons clear: starting any player pauses the others.
+    const players = [...document.querySelectorAll('audio, video')];
+    players.forEach(player => player.addEventListener('play', () => {
+      players.forEach(other => { if (other !== player) other.pause(); });
+    }));
+  </script>
+</body>
+</html>
