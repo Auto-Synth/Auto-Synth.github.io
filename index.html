@@ -21,11 +21,6 @@
     .examples { display: grid; grid-template-columns: 1fr; gap: 56px; max-width: 960px; margin: 56px auto 0; }
     .task { min-width: 0; }
     .task-header { border-bottom: 1px solid var(--line); padding-bottom: 20px; }
-    .task-title-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-bottom: 10px; }
-    .task-title-row h2 { margin: 0; }
-    .baseline-toggle { flex-shrink: 0; padding: 8px 13px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--accent); font: inherit; font-size: 12px; cursor: pointer; }
-    .baseline-toggle:hover { background: #edf3ef; border-color: #b8ccc2; }
-    .baseline-toggle[aria-expanded="true"] { background: #edf3ef; }
     .eyebrow { color: var(--accent); font-size: 11px; font-weight: 650; letter-spacing: 1.8px; text-transform: uppercase; margin: 0 0 10px; }
     h2 { font-size: 28px; font-weight: 600; letter-spacing: -.6px; line-height: 1.3; margin: 0 0 10px; }
     .task-description { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; }
@@ -36,12 +31,18 @@
     .player { min-width: 0; }
     .player-label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 9px; }
     .generated { color: var(--accent); }
+    .primary-player { min-width: 0; padding: 12px; border: 1px solid; border-radius: 9px; }
+    .primary-player .player-label { font-size: 13px; font-weight: 650; letter-spacing: .15px; }
+    .reference-player { background: #eef3f9; border-color: #d8e2ee; }
+    .reference-player .player-label { color: #385d80; }
+    .autosynth-player { background: #eaf4ee; border-color: #cce2d5; }
+    .autosynth-player .player-label { color: #246650; }
     audio { display: block; width: 100%; height: 38px; border-radius: 20px; }
     .prompt { font-size: 16px; line-height: 1.65; margin: 0; color: #55625c; }
     .text-task .sample { grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: 40px; }
     .text-result { min-width: 0; }
     .baseline-panel { grid-column: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .baseline-panel[hidden] { display: none; }
+    .baseline-panel .player { padding: 0 12px; }
     .text-task .baseline-panel { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); }
     footer { margin: 30px 0 40px; color: var(--muted); font-size: 12px; text-align: center; line-height: 1.7; }
     :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
@@ -91,75 +92,72 @@
       <section class="task" aria-labelledby="inversion-title">
         <header class="task-header">
           <p class="eyebrow">Audio → Program</p>
-          <div class="task-title-row">
-            <h2 id="inversion-title">Synthesizer Inversion</h2>
-            <button type="button" class="baseline-toggle" aria-expanded="false" aria-controls="baselines-synthesizer_inversion-woosh_0048 baselines-synthesizer_inversion-woosh_0070 baselines-synthesizer_inversion-woosh_0018 baselines-synthesizer_inversion-woosh_0012 baselines-synthesizer_inversion-woosh_0038 baselines-synthesizer_inversion-woosh_0043">Show baselines</button>
-          </div>
+          <h2 id="inversion-title">Synthesizer Inversion</h2>
         </header>
         <article class="sample">
           <h3 class="sample-heading">Bass</h3>
           <div class="pair">
-            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Bass — reference" src="synth%20inversion/1_ref_bass.wav"></audio></div>
-            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Bass — AutoSynth" src="synth%20inversion/1_output_bass.wav"></audio></div>
+            <div class="player primary-player reference-player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Bass — reference" src="synth%20inversion/1_ref_bass.wav"></audio></div>
+            <div class="player primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Bass — AutoSynth" src="synth%20inversion/1_output_bass.wav"></audio></div>
           </div>
-          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0048" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Bass — Synth Permutations" data-src="baselines/synthesizer_inversion/woosh_0048/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Bass — DDSynth-RL" data-src="baselines/synthesizer_inversion/woosh_0048/DDSynth-RL.wav"></audio></div>
+          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0048">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Bass — Synth Permutations" src="baselines/synthesizer_inversion/woosh_0048/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Bass — DDSynth-RL" src="baselines/synthesizer_inversion/woosh_0048/DDSynth-RL.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <h3 class="sample-heading">Organ</h3>
           <div class="pair">
-            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Organ — reference" src="synth%20inversion/2_ref_organ.wav"></audio></div>
-            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Organ — AutoSynth" src="synth%20inversion/2_output_organ.wav"></audio></div>
+            <div class="player primary-player reference-player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Organ — reference" src="synth%20inversion/2_ref_organ.wav"></audio></div>
+            <div class="player primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Organ — AutoSynth" src="synth%20inversion/2_output_organ.wav"></audio></div>
           </div>
-          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0070" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Organ — Synth Permutations" data-src="baselines/synthesizer_inversion/woosh_0070/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Organ — DDSynth-RL" data-src="baselines/synthesizer_inversion/woosh_0070/DDSynth-RL.wav"></audio></div>
+          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0070">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Organ — Synth Permutations" src="baselines/synthesizer_inversion/woosh_0070/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Organ — DDSynth-RL" src="baselines/synthesizer_inversion/woosh_0070/DDSynth-RL.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <h3 class="sample-heading">Sound effect</h3>
           <div class="pair">
-            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Sound effect — reference" src="synth%20inversion/3_ref_sfx.wav"></audio></div>
-            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Sound effect — AutoSynth" src="synth%20inversion/3_output_sfx.wav"></audio></div>
+            <div class="player primary-player reference-player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Sound effect — reference" src="synth%20inversion/3_ref_sfx.wav"></audio></div>
+            <div class="player primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Sound effect — AutoSynth" src="synth%20inversion/3_output_sfx.wav"></audio></div>
           </div>
-          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0018" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Sound_effect — Synth Permutations" data-src="baselines/synthesizer_inversion/woosh_0018/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Sound_effect — DDSynth-RL" data-src="baselines/synthesizer_inversion/woosh_0018/DDSynth-RL.wav"></audio></div>
+          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0018">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Sound_effect — Synth Permutations" src="baselines/synthesizer_inversion/woosh_0018/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Sound_effect — DDSynth-RL" src="baselines/synthesizer_inversion/woosh_0018/DDSynth-RL.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <h3 class="sample-heading">Pad</h3>
           <div class="pair">
-            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Pad — reference" src="synth%20inversion/4_ref_pad.wav"></audio></div>
-            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Pad — AutoSynth" src="synth%20inversion/4_output_pad.wav"></audio></div>
+            <div class="player primary-player reference-player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Pad — reference" src="synth%20inversion/4_ref_pad.wav"></audio></div>
+            <div class="player primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Pad — AutoSynth" src="synth%20inversion/4_output_pad.wav"></audio></div>
           </div>
-          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0012" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Pad — Synth Permutations" data-src="baselines/synthesizer_inversion/woosh_0012/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Pad — DDSynth-RL" data-src="baselines/synthesizer_inversion/woosh_0012/DDSynth-RL.wav"></audio></div>
+          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0012">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Pad — Synth Permutations" src="baselines/synthesizer_inversion/woosh_0012/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Pad — DDSynth-RL" src="baselines/synthesizer_inversion/woosh_0012/DDSynth-RL.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <h3 class="sample-heading">Arpeggio</h3>
           <div class="pair">
-            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Arpeggio — reference" src="synth%20inversion/5_ref_arp.wav"></audio></div>
-            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Arpeggio — AutoSynth" src="synth%20inversion/5_output_arp.wav"></audio></div>
+            <div class="player primary-player reference-player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Arpeggio — reference" src="synth%20inversion/5_ref_arp.wav"></audio></div>
+            <div class="player primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Arpeggio — AutoSynth" src="synth%20inversion/5_output_arp.wav"></audio></div>
           </div>
-          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0038" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Arpeggio — Synth Permutations" data-src="baselines/synthesizer_inversion/woosh_0038/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Arpeggio — DDSynth-RL" data-src="baselines/synthesizer_inversion/woosh_0038/DDSynth-RL.wav"></audio></div>
+          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0038">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Arpeggio — Synth Permutations" src="baselines/synthesizer_inversion/woosh_0038/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Arpeggio — DDSynth-RL" src="baselines/synthesizer_inversion/woosh_0038/DDSynth-RL.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <h3 class="sample-heading">Texture</h3>
           <div class="pair">
-            <div class="player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Texture — reference" src="synth%20inversion/6_ref_texture.wav"></audio></div>
-            <div class="player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Texture — AutoSynth" src="synth%20inversion/audio_inversion__texture_fx__01_woosh_0043__autosynth.wav"></audio></div>
+            <div class="player primary-player reference-player"><span class="player-label">Reference</span><audio controls preload="metadata" aria-label="Texture — reference" src="synth%20inversion/6_ref_texture.wav"></audio></div>
+            <div class="player primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Texture — AutoSynth" src="synth%20inversion/audio_inversion__texture_fx__01_woosh_0043__autosynth.wav"></audio></div>
           </div>
-          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0043" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Texture — Synth Permutations" data-src="baselines/synthesizer_inversion/woosh_0043/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Texture — DDSynth-RL" data-src="baselines/synthesizer_inversion/woosh_0043/DDSynth-RL.wav"></audio></div>
+          <div class="baseline-panel" id="baselines-synthesizer_inversion-woosh_0043">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Texture — Synth Permutations" src="baselines/synthesizer_inversion/woosh_0043/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Texture — DDSynth-RL" src="baselines/synthesizer_inversion/woosh_0043/DDSynth-RL.wav"></audio></div>
           </div>
         </article>
       </section>
@@ -167,63 +165,60 @@
       <section class="task text-task" aria-labelledby="text-title">
         <header class="task-header">
           <p class="eyebrow">Text → Program</p>
-          <div class="task-title-row">
-            <h2 id="text-title">Text-Driven Generation</h2>
-            <button type="button" class="baseline-toggle" aria-expanded="false" aria-controls="baselines-text_generation-woosh_0083 baselines-text_generation-woosh_0006 baselines-text_generation-woosh_0117 baselines-text_generation-woosh_0120 baselines-text_generation-woosh_0073 baselines-text_generation-woosh_0094">Show baselines</button>
-          </div>
+          <h2 id="text-title">Text-Driven Generation</h2>
         </header>
         <article class="sample">
           <p class="prompt">“A punchy slap synth bass note with sharp attack, decaying over 3 seconds.”</p>
-          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Slap bass — text-driven AutoSynth result" src="text%20generation/A%20punchy%20slap%20synth%20bass%20note%20with%20sharp%20attack,%20decaying%20over%203%20seconds..wav"></audio></div>
-          <div class="baseline-panel" id="baselines-text_generation-woosh_0083" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Punchy_slap_synth_bass — Synth Permutations" data-src="baselines/text_generation/woosh_0083/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Punchy_slap_synth_bass — DDSynth-RL" data-src="baselines/text_generation/woosh_0083/DDSynth-RL.wav"></audio></div>
-            <div class="player"><span class="player-label">CTAG</span><audio controls preload="none" aria-label="Punchy_slap_synth_bass — CTAG" data-src="baselines/text_generation/woosh_0083/CTAG.wav"></audio></div>
+          <div class="text-result primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Slap bass — text-driven AutoSynth result" src="text%20generation/A%20punchy%20slap%20synth%20bass%20note%20with%20sharp%20attack,%20decaying%20over%203%20seconds..wav"></audio></div>
+          <div class="baseline-panel" id="baselines-text_generation-woosh_0083">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Punchy_slap_synth_bass — Synth Permutations" src="baselines/text_generation/woosh_0083/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Punchy_slap_synth_bass — DDSynth-RL" src="baselines/text_generation/woosh_0083/DDSynth-RL.wav"></audio></div>
+            <div class="player"><span class="player-label">CTAG</span><audio controls preload="metadata" aria-label="Punchy_slap_synth_bass — CTAG" src="baselines/text_generation/woosh_0083/CTAG.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <p class="prompt">“A warm electric-piano style synth chord struck once and decaying over 3.5 seconds with gentle bell-like overtones.”</p>
-          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Electric piano — text-driven AutoSynth result" src="text%20generation/A%20warm%20electric-piano%20style%20synth%20chord%20struck%20once%20and%20decaying%20over%203.5%20seconds%20with%20gentle%20bell-like%20overtones..wav"></audio></div>
-          <div class="baseline-panel" id="baselines-text_generation-woosh_0006" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Warm_electric_piano_chord — Synth Permutations" data-src="baselines/text_generation/woosh_0006/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Warm_electric_piano_chord — DDSynth-RL" data-src="baselines/text_generation/woosh_0006/DDSynth-RL.wav"></audio></div>
-            <div class="player"><span class="player-label">CTAG</span><audio controls preload="none" aria-label="Warm_electric_piano_chord — CTAG" data-src="baselines/text_generation/woosh_0006/CTAG.wav"></audio></div>
+          <div class="text-result primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Electric piano — text-driven AutoSynth result" src="text%20generation/A%20warm%20electric-piano%20style%20synth%20chord%20struck%20once%20and%20decaying%20over%203.5%20seconds%20with%20gentle%20bell-like%20overtones..wav"></audio></div>
+          <div class="baseline-panel" id="baselines-text_generation-woosh_0006">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Warm_electric_piano_chord — Synth Permutations" src="baselines/text_generation/woosh_0006/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Warm_electric_piano_chord — DDSynth-RL" src="baselines/text_generation/woosh_0006/DDSynth-RL.wav"></audio></div>
+            <div class="player"><span class="player-label">CTAG</span><audio controls preload="metadata" aria-label="Warm_electric_piano_chord — CTAG" src="baselines/text_generation/woosh_0006/CTAG.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <p class="prompt">“A noisy crushed synth texture evolving over 3.8 seconds.”</p>
-          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Crushed texture — text-driven AutoSynth result" src="text%20generation/A%20noisy%20crushed%20synth%20texture%20evolving%20over%203.8%20seconds..wav"></audio></div>
-          <div class="baseline-panel" id="baselines-text_generation-woosh_0117" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Noisy_crushed_synth_texture — Synth Permutations" data-src="baselines/text_generation/woosh_0117/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Noisy_crushed_synth_texture — DDSynth-RL" data-src="baselines/text_generation/woosh_0117/DDSynth-RL.wav"></audio></div>
-            <div class="player"><span class="player-label">CTAG</span><audio controls preload="none" aria-label="Noisy_crushed_synth_texture — CTAG" data-src="baselines/text_generation/woosh_0117/CTAG.wav"></audio></div>
+          <div class="text-result primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Crushed texture — text-driven AutoSynth result" src="text%20generation/A%20noisy%20crushed%20synth%20texture%20evolving%20over%203.8%20seconds..wav"></audio></div>
+          <div class="baseline-panel" id="baselines-text_generation-woosh_0117">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Noisy_crushed_synth_texture — Synth Permutations" src="baselines/text_generation/woosh_0117/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Noisy_crushed_synth_texture — DDSynth-RL" src="baselines/text_generation/woosh_0117/DDSynth-RL.wav"></audio></div>
+            <div class="player"><span class="player-label">CTAG</span><audio controls preload="metadata" aria-label="Noisy_crushed_synth_texture — CTAG" src="baselines/text_generation/woosh_0117/CTAG.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <p class="prompt">“A lush synth pad chord with slow release over 4 seconds.”</p>
-          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Lush pad — text-driven AutoSynth result" src="text%20generation/A%20lush%20synth%20pad%20chord%20with%20slow%20release%20over%204%20seconds..wav"></audio></div>
-          <div class="baseline-panel" id="baselines-text_generation-woosh_0120" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Lush_synth_pad_chord — Synth Permutations" data-src="baselines/text_generation/woosh_0120/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Lush_synth_pad_chord — DDSynth-RL" data-src="baselines/text_generation/woosh_0120/DDSynth-RL.wav"></audio></div>
-            <div class="player"><span class="player-label">CTAG</span><audio controls preload="none" aria-label="Lush_synth_pad_chord — CTAG" data-src="baselines/text_generation/woosh_0120/CTAG.wav"></audio></div>
+          <div class="text-result primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Lush pad — text-driven AutoSynth result" src="text%20generation/A%20lush%20synth%20pad%20chord%20with%20slow%20release%20over%204%20seconds..wav"></audio></div>
+          <div class="baseline-panel" id="baselines-text_generation-woosh_0120">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Lush_synth_pad_chord — Synth Permutations" src="baselines/text_generation/woosh_0120/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Lush_synth_pad_chord — DDSynth-RL" src="baselines/text_generation/woosh_0120/DDSynth-RL.wav"></audio></div>
+            <div class="player"><span class="player-label">CTAG</span><audio controls preload="metadata" aria-label="Lush_synth_pad_chord — CTAG" src="baselines/text_generation/woosh_0120/CTAG.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <p class="prompt">“A fast-attack synth pluck note with glassy high end, lasting 2.9 seconds.”</p>
-          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Glassy pluck — text-driven AutoSynth result" src="text%20generation/A%20fast-attack%20synth%20pluck%20note%20with%20glassy%20high%20end,%20lasting%202.9%20seconds..wav"></audio></div>
-          <div class="baseline-panel" id="baselines-text_generation-woosh_0073" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Glassy_synth_pluck — Synth Permutations" data-src="baselines/text_generation/woosh_0073/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Glassy_synth_pluck — DDSynth-RL" data-src="baselines/text_generation/woosh_0073/DDSynth-RL.wav"></audio></div>
-            <div class="player"><span class="player-label">CTAG</span><audio controls preload="none" aria-label="Glassy_synth_pluck — CTAG" data-src="baselines/text_generation/woosh_0073/CTAG.wav"></audio></div>
+          <div class="text-result primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="Glassy pluck — text-driven AutoSynth result" src="text%20generation/A%20fast-attack%20synth%20pluck%20note%20with%20glassy%20high%20end,%20lasting%202.9%20seconds..wav"></audio></div>
+          <div class="baseline-panel" id="baselines-text_generation-woosh_0073">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Glassy_synth_pluck — Synth Permutations" src="baselines/text_generation/woosh_0073/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Glassy_synth_pluck — DDSynth-RL" src="baselines/text_generation/woosh_0073/DDSynth-RL.wav"></audio></div>
+            <div class="player"><span class="player-label">CTAG</span><audio controls preload="metadata" aria-label="Glassy_synth_pluck — CTAG" src="baselines/text_generation/woosh_0073/CTAG.wav"></audio></div>
           </div>
         </article>
         <article class="sample">
           <p class="prompt">“A warm synth French horn tone held steady for 4 seconds.”</p>
-          <div class="text-result"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="French horn — text-driven AutoSynth result" src="text%20generation/A%20warm%20synth%20French%20horn%20tone%20held%20steady%20for%204%20seconds..wav"></audio></div>
-          <div class="baseline-panel" id="baselines-text_generation-woosh_0094" hidden>
-            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="none" aria-label="Warm_synth_French_horn — Synth Permutations" data-src="baselines/text_generation/woosh_0094/Synth_Permutations.wav"></audio></div>
-            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="none" aria-label="Warm_synth_French_horn — DDSynth-RL" data-src="baselines/text_generation/woosh_0094/DDSynth-RL.wav"></audio></div>
-            <div class="player"><span class="player-label">CTAG</span><audio controls preload="none" aria-label="Warm_synth_French_horn — CTAG" data-src="baselines/text_generation/woosh_0094/CTAG.wav"></audio></div>
+          <div class="text-result primary-player autosynth-player"><span class="player-label generated">AutoSynth</span><audio controls preload="metadata" aria-label="French horn — text-driven AutoSynth result" src="text%20generation/A%20warm%20synth%20French%20horn%20tone%20held%20steady%20for%204%20seconds..wav"></audio></div>
+          <div class="baseline-panel" id="baselines-text_generation-woosh_0094">
+            <div class="player"><span class="player-label">Synth Permutations</span><audio controls preload="metadata" aria-label="Warm_synth_French_horn — Synth Permutations" src="baselines/text_generation/woosh_0094/Synth_Permutations.wav"></audio></div>
+            <div class="player"><span class="player-label">DDSynth-RL</span><audio controls preload="metadata" aria-label="Warm_synth_French_horn — DDSynth-RL" src="baselines/text_generation/woosh_0094/DDSynth-RL.wav"></audio></div>
+            <div class="player"><span class="player-label">CTAG</span><audio controls preload="metadata" aria-label="Warm_synth_French_horn — CTAG" src="baselines/text_generation/woosh_0094/CTAG.wav"></audio></div>
           </div>
         </article>
       </section>
@@ -236,25 +231,6 @@
     players.forEach(player => player.addEventListener('play', () => {
       players.forEach(other => { if (other !== player) other.pause(); });
     }));
-    document.querySelectorAll('.baseline-toggle').forEach(button => {
-      button.addEventListener('click', () => {
-        const expanded = button.getAttribute('aria-expanded') === 'true';
-        button.setAttribute('aria-expanded', String(!expanded));
-        button.textContent = expanded ? 'Show baselines' : 'Hide baselines';
-        button.closest('.task').querySelectorAll('.baseline-panel').forEach(panel => {
-          panel.hidden = expanded;
-          panel.querySelectorAll('audio').forEach(player => {
-            if (expanded) {
-              player.pause();
-            } else if (!player.hasAttribute('src')) {
-              player.preload = 'metadata';
-              player.src = player.dataset.src;
-              player.load();
-            }
-          });
-        });
-      });
-    });
   </script>
 </body>
 </html>
